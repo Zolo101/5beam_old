@@ -1,0 +1,17 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h1, h2 {
+    margin: 2px;
+}
+
+body {
+    background-color: #eeeeee;
+}
+
+code {
+    background-color: gainsboro;
+    margin: 4px;
+    padding: 4px;
+}

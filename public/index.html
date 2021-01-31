@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>5beam</title>
+</head>
+<body>
+    <h1>5beam 2021 edition</h1>
+    <h2>bare bones version</h2>
+    <br>
+    <p>API endpoints</p>
+    <b>GET</b><code>/api/all</code><span>---- Gets all the levels.</span>
+    <br><br>
+    <b>GET</b><code>/api/level/<b>:id</b></code><span>---- Gets a specfic level.</span>
+    <br><br>
+    <b>GET</b><code>/api/level/get/<b>:id</b></code><span>---- Gets the leveldata from the level specified.</span>
+    <br><br>
+
+    <code>/api/all</code><span>and</span><code>/api/level/<b>:id</b></code><span>do not contain the actual leveldata, only the level info. For that, use</span><code>/api/level/get/<b>:id</b></code>
+</body>
+</html>
