@@ -9,15 +9,64 @@
 <body>
     <h1>5beam 2021 edition</h1>
     <h2>bare bones version</h2>
+    <p>for the flash version, go <a href="/flash.html">here</a></p>
     <br>
     <p>API endpoints</p>
-    <b>GET</b><code>/api/all</code><span>---- Gets all the levels.</span>
+    <b>GET</b><a href="/api/all"><code>/api/all</code></a><span>---- Gets all the levels.</span>
     <br><br>
-    <b>GET</b><code>/api/level/<b>:id</b></code><span>---- Gets a specfic level.</span>
+    <b>GET</b><a href="/api/level/0"><code>/api/level/<b>:id</b></a></code><span>---- Gets a specfic level.</span>
     <br><br>
-    <b>GET</b><code>/api/level/get/<b>:id</b></code><span>---- Gets the leveldata from the level specified.</span>
+    <b>GET</b><a href="/api/level/get/0"><code>/api/level/get/<b>:id</b></a></code><span>---- Gets the leveldata from the level specified.</span>
     <br><br>
 
     <code>/api/all</code><span>and</span><code>/api/level/<b>:id</b></code><span>do not contain the actual leveldata, only the level info. For that, use</span><code>/api/level/get/<b>:id</b></code>
+    <br><br><br><br>
+    
+    <code>/api/*</code><span>has a ratelimit of 50 requests per minute.</span>
+    <br><br>
+    <code>/api/all</code><span>has a ratelimit of 20 requests per minute.</span>
+    <br><br><br><br>
+
+    <b>POST</b><code>/api/level/upload</code><span>---- Uploads a level. Must have the correct format or it will not be accepted.</span>
+    <br><br>
+
+    <p>Structure (as of 21w04a):</p> <span><b>PLEASE DONT USE THIS BECAUSE IT WILL CHANGE MASSIVELY IN V4 ALPHA</b></span>
+
+    <p class="multiline-code">
+        {<br>
+            name: string<br>
+            author: string<br>
+            date: number<br>
+            data: number[][]<br>
+            version: number<br>
+        }<br>
+    </p>
+
+    <p>will be turned into this in the database:</p>
+
+    <p class="multiline-code">
+        {<br>
+            id      // Database ID<br>
+            name    // Name of levelpack<br>
+            author  // "Guest"<br>
+            date    // Date.now()<br>
+            data    // Levelpack<br>
+            version // Structure level<br>
+        }<br>
+    </p>
+
+    <p>When you call the API, you will be given an object like this:</p>
+    <p class="multiline-code">
+        {<br>
+            status  // Status response<br>
+            data    // If successful<br>
+        }<br>
+    </p>
+
+    <p><code>status</code> can be either <span class="success">success</span>, <span class="fail">fail</span>, <span class="unsure">unsure</span> or <span class="ratelimit">ratelimit</span></p>
+    <p>On <span class="success">success</span>, you are guaranteed some sort of data.</p>
+    <p>On <span class="fail">fail</span>, you wont get any data.</p>
+    <p>On <span class="unsure">unsure</span>, i dont know if you will get data. Hopefully you'll never get this.</p>
+    <p>On <span class="ratelimit">ratelimit</span>, you have requested too many times and wont get any data until the cooldown ends.</p>
 </body>
 </html>

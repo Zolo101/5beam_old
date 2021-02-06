@@ -10,8 +10,32 @@ body {
     background-color: #eeeeee;
 }
 
-code {
+code, .multiline-code {
     background-color: gainsboro;
     margin: 4px;
     padding: 4px;
+}
+
+.success, .fail, .unsure, .ratelimit {
+    padding: 4px;
+    font-weight: bold;
+}
+
+.success {
+    background-color: green;
+    color: greenyellow;
+}
+
+.fail {
+    background-color: darkred;
+    color: red;
+}
+
+.unsure {
+    background-color: lightcyan;
+    color: grey;
+}
+
+.ratelimit {
+    background: linear-gradient(to right, #19ff8c 0%,#04cfad 100%);
 }
