@@ -2,5 +2,5 @@
     "watch": ["/src/**"],
     "ignore": ["/node_modules/**"],
     "ext": "ts",
-    "exec": "node src/index.js"
+    "exec": "node dist/index.js"
 }
