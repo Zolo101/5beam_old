@@ -44,13 +44,14 @@
         <span>---- Uploads a level. Must have the correct format or it will not be accepted.</span>
     </div>
 
-    <code>/api/all</code><span>and</span><code>/api/level/<b>:id</b></code><span>do not contain the actual leveldata, only the level info. For that, use</span><code>/api/level/get/<b>:id</b></code>
-    <br><br><br><br>
+    <span><b>/api/all and /api/level/:id do not contain the actual leveldata, only the level info. For that, use /api/level/get/:id</b></span>
+    <br>
     
+    <p><b>API Ratelimits:</b></p>
     <code>/api/*</code><span>has a ratelimit of 1000 requests per 10 minutes.</span>
     <br><br>
     <code>/api/all</code><span>has a ratelimit of 20 requests per 10 minutes.</span>
-    <br><br><br>
+    <br><br>
 
     <p><b>Structure (as of v4 Alpha):</b></p>
 
