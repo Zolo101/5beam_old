@@ -85,9 +85,9 @@ app.get("/api/level/get/:id", async (req, res, next) => {
     }
 })
 
-app.get("/api/upload", async (req, res, next) => {
+app.post("/api/upload", async (req, res, next) => {
     try {
-        const response = await postLevelData(exampleLevel)
+        const response = await postLevelData(req.body)
         console.log(chalk.greenBright(`LEVEL UPLOAD: ${exampleLevel.name}`))
         res.send(await makeAPIResponse("success", response))
     } catch (error) {
