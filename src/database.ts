@@ -52,7 +52,7 @@ export async function postLevelData(level: any): Promise<string> {
     try {
         conn = await pool.getConnection();
         return await conn.query("INSERT INTO `5beam` (name, author, description, date, data, version) value (?, ?, ?, ?, ?, ?)",
-            [level.name, level.author, Date.now(), level.description, [JSON.stringify(level.data)], level.version]);
+            [level.name, level.author, Date.now(), level.description, JSON.stringify(level.levels), level.struct_version]);
     } finally {
         if (conn) conn.release();
     }

@@ -32,6 +32,10 @@ code, .struct {
     padding: 8px 30px;
 }
 
+code, code b, .struct span {
+    font-family: 'Courier New', Courier, monospace;
+}
+
 .struct-prop {
     font-weight: bold;
 }
@@ -66,11 +70,6 @@ code, .struct {
 .fail {
     background-color: rgb(106, 0, 0);
     color: red;
-}
-
-.unsure {
-    background-color: lightcyan;
-    color: grey;
 }
 
 .ratelimit {

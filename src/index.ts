@@ -37,6 +37,7 @@ app.use(helmet.contentSecurityPolicy({
 app.use(cors())
 
 app.use(express.static("public")) // serve static files
+app.use(express.json())
 
 const allRateLimit = ratelimit({
     windowMs: 1000 * 60 * 10, // 10 minutes
@@ -88,7 +89,7 @@ app.get("/api/level/get/:id", async (req, res, next) => {
 app.post("/api/upload", async (req, res, next) => {
     try {
         const response = await postLevelData(req.body)
-        console.log(chalk.greenBright(`LEVEL UPLOAD: ${exampleLevel.name}`))
+        console.log(chalk.greenBright(`LEVEL UPLOAD: ${req.body.name}`))
         res.send(await makeAPIResponse("success", response))
     } catch (error) {
         console.error(chalk.redBright(`ERROR: /api/upload: ${error}`))
