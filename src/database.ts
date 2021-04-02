@@ -20,7 +20,7 @@ export async function getAllLevels(): Promise<string> {
     let conn;
     try {
         conn = await pool.getConnection();
-        return await conn.query("SELECT `ID`, `name`, `author`, `date`, `version` FROM `5beam`");
+        return await conn.query("SELECT `ID`, `name`, `author`, `description`, `date`, `version` FROM `5beam`");
     } finally {
         if (conn) conn.release();
     }
@@ -31,7 +31,7 @@ export async function getLevel(id: string): Promise<string> {
     let conn;
     try {
         conn = await pool.getConnection();
-        return await conn.query("SELECT `ID`, `name`, `author`, `date`, `version` FROM `5beam` WHERE ID = ?", [id]);
+        return await conn.query("SELECT `ID`, `name`, `author`, `description`, `date`, `version` FROM `5beam` WHERE ID = ?", [id]);
     } finally {
         if (conn) conn.release();
     }
@@ -41,7 +41,7 @@ export async function getLevelData(id: string): Promise<string> {
     let conn;
     try {
         conn = await pool.getConnection();
-        return await conn.query("SELECT Data FROM `5beam` WHERE ID = ?", [id]);
+        return await conn.query("SELECT `data` FROM `5beam` WHERE ID = ?", [id]);
     } finally {
         if (conn) conn.release();
     }
@@ -52,7 +52,7 @@ export async function postLevelData(level: any): Promise<string> {
     try {
         conn = await pool.getConnection();
         return await conn.query("INSERT INTO `5beam` (name, author, description, date, data, version) value (?, ?, ?, ?, ?, ?)",
-            [level.name, level.author, Date.now(), level.description, JSON.stringify(level.levels), level.struct_version]);
+            [level.name, level.author, level.description, Date.now(), JSON.stringify(level.levels), level.struct_version]);
     } finally {
         if (conn) conn.release();
     }

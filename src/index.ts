@@ -1,4 +1,5 @@
 import fs from "fs";
+import fetch from "node-fetch";
 import http from "http";
 import express from "express";
 import ratelimit from "express-rate-limit";
@@ -14,6 +15,7 @@ const port = 3000;
 const server = http.createServer(app);
 
 const exampleLevel = JSON.parse(fs.readFileSync("src/examplelevel.json").toString());
+const webhookURL = fs.readFileSync("webhook.txt").toString();
 
 server.listen(port, () => {
     console.log(`**\nStarting the server on port ${port}\n**`)
@@ -88,11 +90,28 @@ app.get("/api/level/get/:id", async (req, res, next) => {
 
 app.post("/api/upload", async (req, res, next) => {
     try {
-        const response = await postLevelData(req.body)
+        await postLevelData(req.body)
+        sendWebhookMessage(req.body);
         console.log(chalk.greenBright(`LEVEL UPLOAD: ${req.body.name}`))
-        res.send(await makeAPIResponse("success", response))
+        res.status(201)
     } catch (error) {
         console.error(chalk.redBright(`ERROR: /api/upload: ${error}`))
-        res.send(await makeAPIResponse("fail", ""))
+        res.status(400).send(await makeAPIResponse("fail", ""))
     }
 })
+
+async function sendWebhookMessage(levelfile: any) {
+    return await fetch(webhookURL, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            content: "New level!",
+            embeds: [{
+                title: `${levelfile.name} By ${levelfile.author}`,
+                description: levelfile.description,
+                color: 8049944,
+                timestamp: new Date().toISOString()
+            }]
+        }),
+    });
+}

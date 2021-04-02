@@ -11,7 +11,6 @@ async function init() {
         break;
 
     case "fail":
-    case "unsure":
         infoElement.innerText = "Error! Failed to get API results.";
         infoElement.style.color = "red";
         break;
