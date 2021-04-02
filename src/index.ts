@@ -14,6 +14,8 @@ const title = "5beam.zelo.dev"
 const port = 3000;
 const server = http.createServer(app);
 
+app.set("trust proxy", 1);
+
 const exampleLevel = JSON.parse(fs.readFileSync("src/examplelevel.json").toString());
 const webhookURL = fs.readFileSync("webhook.txt").toString();
 
@@ -48,7 +50,7 @@ const allRateLimit = ratelimit({
 })
 
 const uploadRateLimit = ratelimit({
-    windowMs: 1000 * 60 * 1, // 1 minute
+    windowMs: 1000 * 60,     // 1 minute
     max: 5,                  // 5 requests
     message: JSON.stringify({status: "ratelimit", data: "You are being ratelimited!"})
 })
