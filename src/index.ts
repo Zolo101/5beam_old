@@ -87,6 +87,7 @@ app.get("/api/level/get/:id", async (req, res, next) => {
 })
 
 app.post("/api/upload", async (req, res, next) => {
+    console.log(req);
     try {
         const response = await postLevelData(req.body)
         console.log(chalk.greenBright(`LEVEL UPLOAD: ${req.body.name}`))
@@ -96,3 +97,8 @@ app.post("/api/upload", async (req, res, next) => {
         res.send(await makeAPIResponse("fail", ""))
     }
 })
+
+app.get("/api/upload", async (req, res, next) => {
+    res.send(await makeAPIResponse("fail", "You probably meant to use POST."))
+})
+
