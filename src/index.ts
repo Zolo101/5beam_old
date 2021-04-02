@@ -47,6 +47,12 @@ const allRateLimit = ratelimit({
     message: JSON.stringify({status: "ratelimit", data: "You are being ratelimited!"})
 })
 
+const uploadRateLimit = ratelimit({
+    windowMs: 1000 * 60 * 1, // 1 minute
+    max: 5,                  // 5 requests
+    message: JSON.stringify({status: "ratelimit", data: "You are being ratelimited!"})
+})
+
 const otherRateLimit = ratelimit({
     windowMs: 1000 * 60 * 10, // 10 minutes
     max: 1000,                // 1000 requests
@@ -55,6 +61,7 @@ const otherRateLimit = ratelimit({
 
 app.use("/api/", otherRateLimit);
 app.use("/api/all", allRateLimit);
+app.use("/api/upload", uploadRateLimit);
 
 initDatabase()
 
@@ -93,7 +100,7 @@ app.post("/api/upload", async (req, res, next) => {
         await postLevelData(req.body)
         sendWebhookMessage(req.body);
         console.log(chalk.greenBright(`LEVEL UPLOAD: ${req.body.name}`))
-        res.status(201)
+        res.status(201).send(await makeAPIResponse("success", "Uploaded!"))
     } catch (error) {
         console.error(chalk.redBright(`ERROR: /api/upload: ${error}`))
         res.status(400).send(await makeAPIResponse("fail", ""))
