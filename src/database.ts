@@ -31,7 +31,7 @@ export async function getLevel(id: string): Promise<string> {
     let conn;
     try {
         conn = await pool.getConnection();
-        return await conn.query("SELECT `ID`, `name`, `author`, `description`, `date`, `version` FROM `5beam` WHERE ID = ?", [id]);
+        return await conn.query("SELECT * FROM `5beam` WHERE ID = ?", [id]);
     } finally {
         if (conn) conn.release();
     }
@@ -46,6 +46,19 @@ export async function getLevelData(id: string): Promise<string> {
         if (conn) conn.release();
     }
 }
+
+export async function getPage(number: number, pagesize = 8): Promise<string> {
+    console.log(number * pagesize, (number + 1) * (pagesize))
+    let conn;
+    try {
+        conn = await pool.getConnection();
+        // eslint-disable-next-line no-param-reassign
+        return await conn.query("SELECT * FROM `5beam` LIMIT ? OFFSET ?", [pagesize, number * pagesize]);
+    } finally {
+        if (conn) conn.release();
+    }
+}
+
 
 export async function postLevelData(level: any): Promise<string> {
     let conn;

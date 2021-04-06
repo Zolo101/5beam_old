@@ -6,7 +6,7 @@ import ratelimit from "express-rate-limit";
 import helmet from "helmet";
 import cors from "cors";
 import chalk from "chalk";
-import initDatabase, { getAllLevels, getLevel, getLevelData, postLevelData, /* getLevel, getLevelData, postLevelData */} from "./database";
+import initDatabase, { getAllLevels, getLevel, getLevelData, getPage, postLevelData, /* getLevel, getLevelData, postLevelData */} from "./database";
 import makeAPIResponse from "./response";
 
 const app = express()
@@ -96,6 +96,16 @@ app.get("/api/level/get/:id", async (req, res, next) => {
         res.send(await makeAPIResponse("fail", ""))
     }
 })
+app.get("/api/level/page/:number", async (req, res, next) => {
+    try {
+        const response = await getPage(Number(req.params.number))
+        res.send(await makeAPIResponse("success", response))
+    } catch (error) {
+        console.error(chalk.redBright(`ERROR: /api/level/page/:number: ${error}`))
+        res.send(await makeAPIResponse("fail", ""))
+    }
+})
+
 
 app.post("/api/upload", async (req, res, next) => {
     try {
