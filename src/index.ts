@@ -45,7 +45,7 @@ app.use(express.json())
 
 const allRateLimit = ratelimit({
     windowMs: 1000 * 60 * 10, // 10 minutes
-    max: 20,                  // 20 requests
+    max: 5,                   // 5 requests
     message: JSON.stringify({status: "ratelimit", data: "You are being ratelimited!"})
 })
 

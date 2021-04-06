@@ -19,17 +19,17 @@
     <p><b>API endpoints:</b></p>
     <div class="endpoint">
         <b>GET</b>
-        <a href="/api/all">
-            <code>/api/all</code>
-        </a>
-        <span>---- Gets all the levels.</span>
-    </div>
-    <div class="endpoint">
-        <b>GET</b>
         <a href="/api/level/0">
             <code>/api/level/<b>:id</b></code>
         </a>
         <span>---- Gets a specfic level.</span>
+    </div>
+    <div class="endpoint">
+        <b>GET</b>
+        <a href="/api/level/page/0">
+            <code>/api/level/page/<b>:number</b></code>
+        </a>
+        <span>---- Gets a specfic page.</span>
     </div>
     <div class="endpoint">
         <b>GET</b>
@@ -38,19 +38,24 @@
         </a>
         <span>---- Gets the leveldata from the level specified.</span>
     </div>
+    <div class="endpoint deprecated">
+        <b>GET</b>
+        <code>/api/all</code>
+        <span>---- Gets all the levels. <b>(DEPRECATED, THIS WILL GO SOON!!)</b></span>
+    </div>
     <div class="endpoint">
         <b>POST</b>
         <code>/api/upload</code>
         <span>---- Uploads a level. Must have the correct format or it will not be accepted.</span>
     </div>
 
-    <span><b>/api/all and /api/level/:id do not contain the actual leveldata, only the level info. For that, use /api/level/get/:id</b></span>
+    <span><b>/api/all does not contain the actual leveldata, only the level info.</b></span>
     <br>
     
     <p><b>API Ratelimits:</b></p>
     <code>/api/*</code><span>has a ratelimit of 1000 requests per 10 minutes.</span>
     <br><br>
-    <code>/api/all</code><span>has a ratelimit of 20 requests per 10 minutes.</span>
+    <code>/api/all</code><span>has a ratelimit of 5 requests per 10 minutes.</span>
     <br><br>
     <code>/api/upload</code><span>has a ratelimit of 5 requests per 1 minute.</span>
     <br><br>

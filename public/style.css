@@ -20,12 +20,18 @@ code, .struct {
 }
 
 .title {
-    background-color: gray;
+    background-color: grey;
 }
 
 .endpoint {
-    padding-left: 30px;
+    background-color: gainsboro;
+    padding: 10px 30px;
     margin: 10px 0;
+}
+
+.deprecated {
+    background-color: orange;
+    margin: 20px 0;
 }
 
 .struct {
@@ -47,7 +53,7 @@ code, code b, .struct span {
 }
 
 .navbar a {
-    color: darkgray;
+    color: darkgrey;
     text-decoration: none;
     padding: 2px;
     margin: 2px 0;
