@@ -43,12 +43,6 @@ app.use(cors())
 app.use(express.static("public")) // serve static files
 app.use(express.json())
 
-const allRateLimit = ratelimit({
-    windowMs: 1000 * 60 * 10, // 10 minutes
-    max: 5,                   // 5 requests
-    message: JSON.stringify({status: "ratelimit", data: "You are being ratelimited!"})
-})
-
 const uploadRateLimit = ratelimit({
     windowMs: 1000 * 60,     // 1 minute
     max: 5,                  // 5 requests
@@ -62,20 +56,9 @@ const otherRateLimit = ratelimit({
 })
 
 app.use("/api/", otherRateLimit);
-app.use("/api/all", allRateLimit);
 app.use("/api/upload", uploadRateLimit);
 
 initDatabase()
-
-app.get("/api/all", async (req, res, next) => {
-    try {
-        const response = await getAllLevels()
-        res.send(await makeAPIResponse("success", response))
-    } catch (error) {
-        console.error(chalk.redBright(`ERROR: /api/all: ${error}`))
-        res.send(await makeAPIResponse("fail", ""))
-    }
-})
 
 app.get("/api/level/:id", async (req, res, next) => {
     try {
@@ -126,7 +109,7 @@ async function sendWebhookMessage(levelfile: any) {
         body: JSON.stringify({
             content: "New level!",
             embeds: [{
-                title: `${levelfile.name} By ${levelfile.author}`,
+                title: `"${levelfile.name}" By ${levelfile.author}`,
                 description: levelfile.description,
                 color: 8049944,
                 timestamp: new Date().toISOString()
