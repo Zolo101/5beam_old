@@ -1,25 +1,56 @@
+let page = 0;
+let fetching = false;
 const infoElement = document.querySelector(".info");
 const levelpackTableElement = document.querySelector(".levelpacks");
 
-async function init() {
-    const apiresult = await fetch("https://5beam.zelo.dev/api/all");
+const pageNumElement = document.querySelector(".pagination-number");
+const prevPage = document.querySelector(".pagination-prev");
+prevPage.addEventListener("click", async () => {
+    if (page > 0) page -= 1;
+    gotoPage();
+});
+
+const nextPage = document.querySelector(".pagination-next");
+nextPage.addEventListener("click", async () => {
+    page += 1;
+    gotoPage();
+});
+
+async function gotoPage() {
+    pageNumElement.innerText = page + 1;
+    if (fetching === false) {
+        fetching = true;
+        await clearData();
+        const results = await fetchData();
+        if (results !== null) {
+            await addData(results)
+        }
+        fetching = false;
+    }
+}
+
+async function fetchData() {
+    const apiresult = await fetch(`https://5beam.zelo.dev/api/level/page/${page}`);
     const levelpacks = await apiresult.json();
     switch (levelpacks.status) {
     case "success":
-        await addData(levelpacks);
         infoElement.style.display = "none";
-        break;
+        return levelpacks;
 
     case "fail":
         infoElement.innerText = "Error! Failed to get API results.";
         infoElement.style.color = "red";
-        break;
+        return null;
 
     case "ratelimit":
         infoElement.innerText = "Error! You are being ratelimited.";
         infoElement.style.color = "red";
-        break;
+        return null;
     }
+}
+
+async function clearData() {
+    levelpackTableElement.innerHTML = "";
 }
 
 async function addData(levelpacks) {
@@ -54,4 +85,4 @@ async function addData(levelpacks) {
     }
 }
 
-init();
+gotoPage(page);
