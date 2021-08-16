@@ -1,6 +1,6 @@
 import fs from "fs";
 import fetch from "node-fetch";
-import http from "http";
+import https from "https";
 import express from "express";
 import ratelimit from "express-rate-limit";
 import helmet from "helmet";
@@ -11,8 +11,11 @@ import makeAPIResponse from "./response";
 
 const app = express()
 const title = "5beam.zelo.dev"
-const port = 3000;
-const server = http.createServer(app);
+const port = 443;
+const server = https.createServer({
+    cert: fs.readFileSync("cert.txt").toString(),
+    key: fs.readFileSync("key.txt").toString()
+}, app);
 
 app.set("trust proxy", 1);
 

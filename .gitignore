@@ -1,4 +1,6 @@
 node_modules
 dbcred.txt
 webhook.txt
+cert.txt
+key.txt
 dist
