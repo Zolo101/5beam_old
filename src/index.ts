@@ -6,7 +6,7 @@ import ratelimit from "express-rate-limit";
 import helmet from "helmet";
 import cors from "cors";
 import chalk from "chalk";
-import initDatabase, { getAllLevels, getLevel, getLevelData, getPage, postLevelData, /* getLevel, getLevelData, postLevelData */} from "./database";
+import { getLevel, getLevelData, getPage, postLevelData, /* getLevel, getLevelData, postLevelData */} from "./database";
 import makeAPIResponse from "./response";
 
 const app = express()
@@ -58,12 +58,10 @@ const otherRateLimit = ratelimit({
 app.use("/api/", otherRateLimit);
 app.use("/api/upload", uploadRateLimit);
 
-initDatabase()
-
 app.get("/api/level/:id", async (req, res, next) => {
     try {
-        const response = await getLevel(req.params.id)
-        res.send(await makeAPIResponse("success", response))
+        const response = await getLevel(Number(req.params.id))
+        res.send(await makeAPIResponse("success", response[0]))
     } catch (error) {
         console.error(chalk.redBright(`ERROR: /api/level/:id: ${error}`))
         res.send(await makeAPIResponse("fail", ""))
@@ -73,6 +71,8 @@ app.get("/api/level/:id", async (req, res, next) => {
 app.get("/api/level/get/:id", async (req, res, next) => {
     try {
         const response = await getLevelData(req.params.id)
+        if (response === null) throw "Levelpack data could not be found"
+
         res.send(await makeAPIResponse("success", response))
     } catch (error) {
         console.error(chalk.redBright(`ERROR: /api/level/get/:id: ${error}`))
@@ -82,7 +82,7 @@ app.get("/api/level/get/:id", async (req, res, next) => {
 app.get("/api/level/page/:number", async (req, res, next) => {
     try {
         const response = await getPage(Number(req.params.number))
-        res.send(await makeAPIResponse("success", response))
+        res.send(await makeAPIResponse("success", JSON.stringify(response)))
     } catch (error) {
         console.error(chalk.redBright(`ERROR: /api/level/page/:number: ${error}`))
         res.send(await makeAPIResponse("fail", ""))

@@ -1,5 +1,7 @@
 let page = 0;
 let fetching = false;
+let debug = true;
+const url = (debug) ? "http://localhost:3000" : "https://5beam.zelo.dev";
 const infoElement = document.querySelector(".info");
 const levelpackTableElement = document.querySelector(".levelpacks");
 
@@ -30,8 +32,11 @@ async function gotoPage() {
 }
 
 async function fetchData() {
-    const apiresult = await fetch(`https://5beam.zelo.dev/api/level/page/${page}`);
+    const apiresult = await fetch(`${url}/api/level/page/${page}`);
     const levelpacks = await apiresult.json();
+    levelpacks.data = JSON.parse(levelpacks.data);
+
+    infoElement.innerText = "Loading...";
     switch (levelpacks.status) {
     case "success":
         infoElement.style.display = "none";
@@ -55,26 +60,27 @@ async function clearData() {
 
 async function addData(levelpacks) {
     for (const levelpack of levelpacks.data) {
+        const parsedLevelpack = JSON.parse(levelpack);
         const levelpackElement = document.createElement("tr");
         const elementID = document.createElement("td");
         elementID.className = "lp-id";
-        elementID.innerText = levelpack.ID;
+        elementID.innerText = parsedLevelpack.ID;
 
         const elementName = document.createElement("td");
         elementName.className = "lp-name";
-        elementName.innerText = levelpack.name;
+        elementName.innerText = parsedLevelpack.name;
 
         const elementAuthor = document.createElement("td");
         elementAuthor.className = "lp-author";
-        elementAuthor.innerText = levelpack.author;
+        elementAuthor.innerText = parsedLevelpack.author;
 
         const elementDate = document.createElement("td");
         elementDate.className = "lp-date";
-        elementDate.innerText = new Date(Number(levelpack.date)).toUTCString();
+        elementDate.innerText = new Date(Number(parsedLevelpack.date)).toUTCString();
 
         const elementVersion = document.createElement("td");
         elementVersion.className = "lp-version";
-        elementVersion.innerHTML = levelpack.version;
+        elementVersion.innerHTML = parsedLevelpack.version;
 
         levelpackElement.appendChild(elementID);
         levelpackElement.appendChild(elementName);
