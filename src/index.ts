@@ -40,7 +40,6 @@ app.use(helmet.contentSecurityPolicy({
 }))
 app.use(cors())
 
-app.use(express.static("public")) // serve static files
 app.use(express.json())
 
 const uploadRateLimit = ratelimit({
